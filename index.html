@@ -144,7 +144,7 @@ function addTask() {
         li.appendChild(deleteButton);
         
         // إضافة المهمة إلى القائمة
-        taskList.appendChild(li);
+        taskList.prepend(li);
         
         // مسح حقل الإدخال بعد إضافة المهمة
         taskInput.value = '';
