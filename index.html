@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المهام</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+     
+     /* style.css */
+     *{
+        box-sizing: border-box;
+     }
+body {
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    background-color: #020216;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 10px;
+}
+.container {
+    border: 2px solid #6aa1fb;
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0px 100px #6aa1fb;
+    width: 500px;
+}
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+input[type="text"] {
+    width: 100%;
+    background: transparent;
+    color: #edf4ee;
+    box-shadow: 0 0px 5px #6aa1fb;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    font-size: 16px;
+}
+button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 5px 20px;
+    margin-top: 20px;
+    background-color: #1058cd;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+}
+button:hover {
+    background-color: #091b7f;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin: 2px 0;
+    border-bottom: 2px solid #fff;
+    padding: 10px;
+    border-radius: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    color: #fff;
+}
+li span {
+    flex-grow: 1;
+    text-align: start;
+    overflow: auto;
+}
+.delete-btn {
+    background-color: #1039dc;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    border: none;
+    padding:5px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #020249;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>قائمة المهام</h1>
+        <input type="text" id="taskInput" placeholder="أضف مهمة جديدة..." />
+        <button onclick="addTask()">إضافة</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+// script.js
+
+// الحصول على العناصر
+const taskInput = document.getElementById('taskInput');
+const taskList = document.getElementById('taskList');
+
+// دالة لإضافة مهمة جديدة
+function addTask() {
+    const taskText = taskInput.value.trim();
+    
+    if (taskText !== '') {
+        // إنشاء عنصر جديد لقائمة المهام
+        const li = document.createElement('li');
+        
+        // إضافة النص إلى المهمة
+        const span = document.createElement('span');
+        span.textContent = taskText;
+        li.appendChild(span);
+        
+        // إضافة زر الحذف
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'حذف';
+        deleteButton.classList.add('delete-btn');
+        deleteButton.onclick = function () {
+            taskList.removeChild(li);
+            saveTasks(); // حفظ المهام بعد الحذف
+        };
+        li.appendChild(deleteButton);
+        
+        // إضافة المهمة إلى القائمة
+        taskList.appendChild(li);
+        
+        // مسح حقل الإدخال بعد إضافة المهمة
+        taskInput.value = '';
+        
+        // حفظ المهام في LocalStorage
+        saveTasks();
+    } else {
+        alert('من فضلك أدخل مهمة!');
+    }
+}
+
+// حفظ المهام في LocalStorage
+function saveTasks() {
+    const tasks = [];
+    const taskItems = taskList.getElementsByTagName('li');
+    for (let i = 0; i < taskItems.length; i++) {
+        tasks.push(taskItems[i].getElementsByTagName('span')[0].textContent);
+    }
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // حفظ المهام في LocalStorage
+}
+
+// استرجاع المهام من LocalStorage
+function loadTasks() {
+    const savedTasks = JSON.parse(localStorage.getItem('tasks'));
+    if (savedTasks) {
+        savedTasks.forEach(task => {
+            const li = document.createElement('li');
+            const span = document.createElement('span');
+            span.textContent = task;
+            li.appendChild(span);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'حذف';
+            deleteButton.classList.add('delete-btn');
+            deleteButton.onclick = function () {
+                taskList.removeChild(li);
+                saveTasks(); // حفظ المهام بعد الحذف
+            };
+            li.appendChild(deleteButton);
+
+            taskList.appendChild(li);
+        });
+    }
+}
+
+// عند تحميل الصفحة، نسترجع المهام المخزنة في LocalStorage
+loadTasks();
+
+    </script>
+</body>
+</html>
+  
+</body>
+</html>
