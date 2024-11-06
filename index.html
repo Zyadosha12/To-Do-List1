@@ -161,7 +161,7 @@ function saveTasks() {
     const tasks = [];
     const taskItems = taskList.getElementsByTagName('li');
     for (let i = 0; i < taskItems.length; i++) {
-        tasks.push(taskItems[i].getElementsByTagName('span')[0].textContent);
+        tasks.unshift(taskItems[i].getElementsByTagName('span')[0].textContent);
     }
     localStorage.setItem('tasks', JSON.stringify(tasks)); // حفظ المهام في LocalStorage
 }
